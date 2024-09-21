@@ -31,16 +31,26 @@ const testimonials = [
 
 function allTestimonial() {
   if (!testimonials.length) {
-    return (document.getElementById("testimonials").innerHTML =
-      `<h1>Data not found!</h1>`);
+    return (document.getElementById(
+      "testimonials"
+    ).innerHTML = `<h1>Data not found!</h1>`);
   }
 
   const testimonialHTML = testimonials.map((testimonial) => {
-    return `<div class="testimonial">
-                <img src="${testimonial.image}" class="profile-testimonial" />
-                <p class="quote">"${testimonial.content}"</p>
-                <p class="author">- ${testimonial.author}</p>
-            </div>`;
+    return `<div class="col">
+      <div class="card">
+        <img src="${testimonial.image}" class="card-img-top object-fit-cover" alt="..." />
+        <div class="card-body">
+          <p class="card-text fst-italic">
+            "${testimonial.content}"
+          </p>
+          <p class="text-end fw-bold">-${testimonial.author} Company</p>
+          <p class="text-end fw-bold">
+            ${testimonial.rating} <i class="fa-solid fa-star"></i>
+          </p>
+        </div>
+      </div>
+    </div>`;
   });
 
   document.getElementById("testimonials").innerHTML = testimonialHTML.join("");
@@ -53,16 +63,26 @@ function filterTestimonial(rating) {
   );
 
   if (!filteredTestimonial.length) {
-    return (document.getElementById("testimonials").innerHTML =
-      `<h1>Data not found!</h1>`);
+    return (document.getElementById(
+      "testimonials"
+    ).innerHTML = `<h1>Data not found!</h1>`);
   }
 
   const testimonialHTML = filteredTestimonial.map((testimonial) => {
-    return `<div class="testimonial">
-                    <img src="${testimonial.image}" class="profile-testimonial" />
-                    <p class="quote">"${testimonial.content}"</p>
-                    <p class="author">- ${testimonial.author}</p>
-                </div>`;
+    return `<div class="col">
+    <div class="card">
+      <img src="${testimonial.image}" class="card-img-top object-fit-cover" alt="..." />
+      <div class="card-body">
+        <p class="card-text fst-italic">
+          "${testimonial.content}"
+        </p>
+        <p class="text-end fw-bold">-${testimonial.author} Company</p>
+        <p class="text-end fw-bold">
+          ${testimonial.rating} <i class="fa-solid fa-star"></i>
+        </p>
+      </div>
+    </div>
+  </div>`;
   });
 
   document.getElementById("testimonials").innerHTML = testimonialHTML.join("");
