@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       projectName: DataTypes.STRING,
       startDate: DataTypes.STRING,
       finishDate: DataTypes.STRING,
-      description: DataTypes.STRING,
+      description: DataTypes.TEXT,
       technologies: DataTypes.ARRAY(DataTypes.STRING),
       image: DataTypes.STRING,
       userId: DataTypes.INTEGER,
