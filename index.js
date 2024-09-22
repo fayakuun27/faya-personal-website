@@ -11,13 +11,14 @@ const upload = require("./middlewares/upload-file");
 
 const sequelize = new Sequelize(config.development);
 
-const blogModel = require("./models").blog;
+const projectModel = require("./models").project;
 const userModel = require("./models").user;
 
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "./views"));
 
 app.use("/assets", express.static(path.join(__dirname, "./assets")));
+app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -36,12 +37,12 @@ app.use(flash());
 app.get("/", home);
 app.get("/add-project", addProjectView);
 app.post("/add-project", upload.single("image"), addProject);
-app.get("/delete-blog/:id", deleteBlog);
-app.get("/edit-blog/:id", editBlogView);
-app.post("/edit-blog/:id", editBlog);
+app.get("/delete-project/:id", deleteProject);
+app.get("/edit-project/:id", editProjectView);
+app.post("/edit-project/:id", editProject);
 app.get("/contact", contact);
 app.get("/testimonials", testimonial);
-app.get("/blog-detail/:id", blogDetail);
+app.get("/project-detail/:id", projectDetail);
 
 app.get("/login", loginView);
 app.get("/register", registerView);
@@ -119,9 +120,44 @@ async function register(req, res) {
   }
 }
 
+function calculateDuration(startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const timeDiff = Math.abs(end - start);
+  const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Hitung selisih hari
+  const monthsDiff = Math.floor(daysDiff / 30); // Kira-kira hitung bulan
+  const daysRemaining = daysDiff % 30;
+
+  if (monthsDiff == 0) {
+    if (daysDiff == 0) {
+      return `0 days`;
+    } else if (daysDiff == 1) {
+      return `1 day`;
+    } else {
+      return `${daysRemaining} days`;
+    }
+  } else if (monthsDiff == 1) {
+    if (daysDiff == 0) {
+      return `1 month`;
+    } else if (daysDiff == 1) {
+      return `1 month and 1 day`;
+    } else {
+      return `1 month and ${daysRemaining} days`;
+    }
+  } else {
+    if (daysDiff == 0) {
+      return `${monthsDiff} months`;
+    } else if (daysDiff == 1) {
+      return `${monthsDiff} months and 1 days`;
+    } else {
+      return `${monthsDiff} months and ${daysRemaining} days`;
+    }
+  }
+}
+
 async function home(req, res) {
   const user = req.session.user;
-  const result = await blogModel.findAll({
+  const result = await projectModel.findAll({
     include: [
       {
         model: userModel,
@@ -129,13 +165,26 @@ async function home(req, res) {
     ],
   });
 
+  for (let i = 0; i < result.length; i++) {
+    result[i].duration = calculateDuration(
+      result[i].startDate,
+      result[i].finishDate
+    );
+  }
+
+  for (let i = 0; i < result.length; i++) {
+    if (result[i].description.length > 35) {
+      result[i].description = result[i].description.slice(0, 35) + "..."; // Tampilkan hanya sebagian deskripsi
+    }
+  }
+
   res.render("index", { data: result, user });
 }
 
-async function deleteBlog(req, res) {
+async function deleteProject(req, res) {
   const { id } = req.params;
 
-  let result = await blogModel.findOne({
+  let result = await projectModel.findOne({
     where: {
       id: id,
     },
@@ -143,34 +192,39 @@ async function deleteBlog(req, res) {
 
   if (!result) return res.render("not-found");
 
-  await blogModel.destroy({
+  await projectModel.destroy({
     where: {
       id: id,
     },
   });
-  res.redirect("/blog");
+  res.redirect("/");
 }
 
 async function addProject(req, res) {
   console.log(req.body);
-  const { title, content } = req.body;
-  // const imagePath = req.file.path;
+  console.log(req.file);
+  const { projectName, startDate, finishDate, description, technologies } =
+    req.body;
+  const imagePath = req.file.path;
   const userId = req.session.user.id;
 
-  await blogModel.create({
-    title: title,
-    content: content,
-    // image: imagePath,
+  await projectModel.create({
+    projectName: projectName,
+    startDate: startDate,
+    finishDate: finishDate,
+    description: description,
+    technologies: technologies,
+    image: imagePath,
     userId: userId,
   });
 
   res.redirect("/");
 }
 
-async function editBlogView(req, res) {
+async function editProjectView(req, res) {
   const { id } = req.params;
 
-  const result = await blogModel.findOne({
+  const result = await projectModel.findOne({
     where: {
       id: id,
     },
@@ -178,27 +232,27 @@ async function editBlogView(req, res) {
 
   if (!result) return res.render("not-found");
 
-  res.render("edit-blog", { data: result });
+  res.render("edit-project", { data: result });
 }
 
-async function editBlog(req, res) {
+async function editProject(req, res) {
   const { id } = req.params;
   const { title, content } = req.body;
 
-  const blog = await blogModel.findOne({
+  const project = await projectModel.findOne({
     where: {
       id: id,
     },
   });
 
-  if (!blog) return res.render("not-found");
+  if (!project) return res.render("not-found");
 
-  blog.title = title;
-  blog.content = content;
+  project.title = title;
+  project.content = content;
 
-  await blog.save();
+  await project.save();
 
-  res.redirect("/blog");
+  res.redirect("/");
 }
 
 function addProjectView(req, res) {
@@ -219,16 +273,16 @@ function testimonial(req, res) {
   res.render("testimonials");
 }
 
-async function blogDetail(req, res) {
+async function projectDetail(req, res) {
   const { id } = req.params;
-  const result = await blogModel.findOne({
+  const result = await projectModel.findOne({
     where: {
       id: id,
     },
   });
 
   if (!result) return res.render("not-found");
-  res.render("blog-detail", { data: result });
+  res.render("project-detail", { data: result });
 }
 
 app.listen(port, () => {
