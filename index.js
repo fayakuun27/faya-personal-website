@@ -281,6 +281,19 @@ async function projectDetail(req, res) {
     },
   });
 
+  console.log(result);
+
+  result.duration = calculateDuration(result.startDate, result.finishDate);
+  result.dateRange = `${new Date(result.startDate).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  })} - ${new Date(result.finishDate).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  })}`;
+
   if (!result) return res.render("not-found");
   res.render("project-detail", { data: result });
 }
