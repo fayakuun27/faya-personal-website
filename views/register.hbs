@@ -71,22 +71,32 @@
     </nav>
     <main>
       <div class="container" style="max-width: 500px">
+        {{#if messages.error}}
+          <div class="alert alert-danger" role="alert">
+            {{messages.error}}
+          </div>
+        {{/if}}
         <h1 class="text-center my-5 fw-bold">Register</h1>
-        <form>
+        <form action="/register" method="POST">
           <div class="mb-3">
             <label for="name" class="form-label fw-semibold">Name</label>
-            <input type="text" class="form-control" id="name" />
+            <input type="text" class="form-control" id="name" name="name" />
           </div>
           <div class="mb-3">
             <label for="email" class="form-label fw-semibold">Email</label>
-            <input type="email" class="form-control" id="email" />
+            <input type="email" class="form-control" id="email" name="email" />
           </div>
           <div class="mb-3">
             <label
               for="password"
               class="form-label fw-semibold"
             >Password</label>
-            <input type="password" class="form-control" id="password" />
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+            />
           </div>
           <div class="mb-3 d-flex flex-row-reverse">
             <button class="btn btn-dark align-items-end" type="submit">

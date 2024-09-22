@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -22,12 +21,11 @@
   <body style="font-family: Poppins" class="bg-secondary">
     <nav class="navbar navbar-expand-md" style="background-color: #f2f3f2">
       <div class="container">
-        <a class="navbar-brand" href="/"
-          ><img
+        <a class="navbar-brand" href="/"><img
             src="https://dumbways.id/assets/images/brandred.png"
             alt="Logo"
             style="height: 30px"
-        /></a>
+          /></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -57,12 +55,14 @@
               <a class="nav-link d-md-none" href="/contact">Contact Me</a>
             </li>
           </ul>
-          <a class="btn btn-dark d-none d-md-inline" href="/contact"
-            >Register</a
-          >
-          <a class="btn btn-dark d-none d-md-inline mx-2" href="/contact"
-            >Login</a
-          >
+          <a
+            class="btn btn-dark d-none d-md-inline"
+            href="/contact"
+          >Register</a>
+          <a
+            class="btn btn-dark d-none d-md-inline mx-2"
+            href="/contact"
+          >Login</a>
           <a class="btn btn-dark d-none d-md-inline" href="/contact">
             Contact Me
           </a>
@@ -71,17 +71,34 @@
     </nav>
     <main>
       <div class="container" style="max-width: 500px">
+        {{#if messages.success}}
+          <div class="alert alert-success" role="alert">
+            {{messages.success}}
+          </div>
+        {{/if}}
+        {{#if messages.error}}
+          <div class="alert alert-danger" role="alert">
+            {{messages.error}}
+          </div>
+        {{/if}}
+
         <h1 class="text-center my-5 fw-bold">LOGIN</h1>
-        <form>
+        <form action="/login" method="POST">
           <div class="mb-3">
             <label for="email" class="form-label fw-semibold">Email</label>
-            <input type="email" class="form-control" id="email" />
+            <input type="email" class="form-control" id="email" name="email" />
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label fw-semibold"
-              >Password</label
-            >
-            <input type="password" class="form-control" id="password" />
+            <label
+              for="password"
+              class="form-label fw-semibold"
+            >Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+            />
           </div>
           <div class="mb-3 d-flex flex-row-reverse">
             <button class="btn btn-dark align-items-end" type="submit">

@@ -34,9 +34,8 @@ app.use(
 app.use(flash());
 
 app.get("/", home);
-app.get("/blog", blog);
 app.get("/add-project", addProjectView);
-app.post("/blog", upload.single("image"), addBlog);
+app.post("/add-project", upload.single("image"), addProject);
 app.get("/delete-blog/:id", deleteBlog);
 app.get("/edit-blog/:id", editBlogView);
 app.post("/edit-blog/:id", editBlog);
@@ -51,6 +50,9 @@ app.post("/register", register);
 app.post("/login", login);
 
 function loginView(req, res) {
+  const user = req.session.user;
+  console.log(user);
+  if (user) return res.redirect("/");
   res.render("login");
 }
 
@@ -90,6 +92,9 @@ async function login(req, res) {
 }
 
 function registerView(req, res) {
+  const user = req.session.user;
+  console.log(user);
+  if (user) return res.redirect("/");
   res.render("register");
 }
 
@@ -106,24 +111,16 @@ async function register(req, res) {
       password: hashedPassword,
     });
 
-    req.flash("success", "Register berhasil!");
-    res.redirect("/register");
+    req.flash("success", "Register berhasil! Silahkan login");
+    res.redirect("/login");
   } catch (error) {
-    req.flash("error", "Register gagal!");
+    req.flash("error", "Register gagal! Email sudah digunakan");
     res.redirect("/register");
   }
 }
 
-function home(req, res) {
+async function home(req, res) {
   const user = req.session.user;
-
-  res.render("index", { user });
-}
-
-async function blog(req, res) {
-  // const query = `SELECT public.blogs.*, public.users.name AS username FROM public.blogs INNER JOIN public.users
-  // ON public.blogs."userId" = public.users.id;`;
-  // const result = await sequelize.query(query, { type: QueryTypes.SELECT });
   const result = await blogModel.findAll({
     include: [
       {
@@ -132,9 +129,7 @@ async function blog(req, res) {
     ],
   });
 
-  const user = req.session.user;
-
-  res.render("blog", { data: result, user });
+  res.render("index", { data: result, user });
 }
 
 async function deleteBlog(req, res) {
@@ -156,19 +151,20 @@ async function deleteBlog(req, res) {
   res.redirect("/blog");
 }
 
-async function addBlog(req, res) {
+async function addProject(req, res) {
+  console.log(req.body);
   const { title, content } = req.body;
-  const imagePath = req.file.path;
+  // const imagePath = req.file.path;
   const userId = req.session.user.id;
 
   await blogModel.create({
     title: title,
     content: content,
-    image: imagePath,
+    // image: imagePath,
     userId: userId,
   });
 
-  res.redirect("/blog");
+  res.redirect("/");
 }
 
 async function editBlogView(req, res) {

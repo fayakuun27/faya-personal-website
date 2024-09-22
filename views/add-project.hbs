@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -22,12 +21,11 @@
   <body style="font-family: Poppins" class="bg-secondary">
     <nav class="navbar navbar-expand-md" style="background-color: #f2f3f2">
       <div class="container-lg">
-        <a class="navbar-brand" href="/"
-          ><img
+        <a class="navbar-brand" href="/"><img
             src="https://dumbways.id/assets/images/brandred.png"
             alt="Logo"
             style="height: 30px"
-        /></a>
+          /></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -57,12 +55,14 @@
               <a class="nav-link d-md-none" href="/contact">Contact Me</a>
             </li>
           </ul>
-          <a class="btn btn-dark d-none d-md-inline" href="/contact"
-            >Register</a
-          >
-          <a class="btn btn-dark d-none d-md-inline mx-2" href="/contact"
-            >Login</a
-          >
+          <a
+            class="btn btn-dark d-none d-md-inline"
+            href="/contact"
+          >Register</a>
+          <a
+            class="btn btn-dark d-none d-md-inline mx-2"
+            href="/contact"
+          >Login</a>
           <a class="btn btn-dark d-none d-md-inline" href="/contact">
             Contact Me
           </a>
@@ -72,32 +72,49 @@
     <main>
       <div class="container" style="max-width: 720px">
         <h1 class="text-center my-5 fw-bold">ADD PROJECT</h1>
-        <form>
+        <form action="/add-project" method="POST">
           <div class="mb-3">
-            <label for="project-name" class="form-label fw-semibold"
-              >Project Name</label
-            >
-            <input type="text" class="form-control" id="project-name" />
+            <label for="project-name" class="form-label fw-semibold">Project
+              Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="project-name"
+              name="project-name"
+            />
           </div>
           <div class="mb-3 d-flex gap-2">
             <div class="flex-fill">
-              <label for="start-date" class="form-label fw-semibold"
-                >Start Date</label
-              >
-              <input type="date" class="form-control" id="start-date" />
+              <label for="start-date" class="form-label fw-semibold">Start Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="start-date"
+                name="start-date"
+              />
             </div>
             <div class="flex-fill">
-              <label for="finish-date" class="form-label fw-semibold"
-                >Finish Date</label
-              >
-              <input type="date" class="form-control" id="finish-date" />
+              <label for="finish-date" class="form-label fw-semibold">Finish
+                Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="finish-date"
+                name="finish-date"
+              />
             </div>
           </div>
           <div class="mb-3">
-            <label for="description" class="form-label fw-semibold"
-              >Description</label
-            >
-            <textarea class="form-control" id="description" rows="3"></textarea>
+            <label
+              for="description"
+              class="form-label fw-semibold"
+            >Description</label>
+            <textarea
+              class="form-control"
+              id="description"
+              rows="3"
+              name="description"
+            ></textarea>
           </div>
           <div class="mb-3">
             <label class="form-label fw-semibold">Technologies</label>
@@ -162,10 +179,8 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="img-up" class="form-label fw-semibold"
-              >Upload Image</label
-            >
-            <input class="form-control" type="file" id="img-up" />
+            <label for="img-up" class="form-label fw-semibold">Upload Image</label>
+            <input class="form-control" type="file" id="img-up" name="image" />
           </div>
           <div class="mb-3 d-flex flex-row-reverse">
             <button class="btn btn-dark align-items-end" type="submit">
