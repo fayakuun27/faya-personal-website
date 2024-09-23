@@ -49,23 +49,17 @@
               <a class="nav-link" href="/add-project">Add Project</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-md-none" href="/register">Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-md-none" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link d-md-none" href="/contact">Contact Me</a>
             </li>
           </ul>
-          <a
-            class="btn btn-dark d-none d-md-inline"
-            href="/register"
-          >Register</a>
-          <a
-            class="btn btn-dark d-none d-md-inline mx-2"
-            href="/login"
-          >Login</a>
+          {{#if user}}
+            <span class="navbar-text">Hi, {{user.name}}</span>
+            <a class="btn btn-dark mx-2" href="/logout">
+              Logout</a>
+          {{else}}
+            <a class="btn btn-dark" href="/register">Register</a>
+            <a class="btn btn-dark mx-2" href="/login">Login</a>
+          {{/if}}
           <a class="btn btn-dark d-none d-md-inline" href="/contact">
             Contact Me
           </a>
@@ -125,6 +119,7 @@
         </div>
       </div>
       <div class="bg-white">
+        <br />
         <h1 class="text-center my-5 fw-bold">MY PROJECTS</h1>
         <div class="container">
           <div
@@ -138,7 +133,7 @@
                   <div class="card-body">
                     <a
                       class="card-title text-decoration-none link-dark"
-                      href="/project-detial/{{id}}"
+                      href="/project-detail/{{id}}"
                     >{{projectName}}</a>
                     <p class="card-text text-body-secondary">
                       duration:

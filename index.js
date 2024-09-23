@@ -39,7 +39,7 @@ app.get("/add-project", addProjectView);
 app.post("/add-project", upload.single("image"), addProject);
 app.get("/delete-project/:id", deleteProject);
 app.get("/edit-project/:id", editProjectView);
-app.post("/edit-project/:id", editProject);
+app.post("/edit-project/:id", upload.single("image"), editProject);
 app.get("/contact", contact);
 app.get("/testimonials", testimonial);
 app.get("/project-detail/:id", projectDetail);
@@ -49,10 +49,15 @@ app.get("/register", registerView);
 
 app.post("/register", register);
 app.post("/login", login);
+app.get("/logout", logout);
+
+function logout(req, res) {
+  req.session.user = null;
+  res.redirect("/");
+}
 
 function loginView(req, res) {
   const user = req.session.user;
-  console.log(user);
   if (user) return res.redirect("/");
   res.render("login");
 }
@@ -94,7 +99,7 @@ async function login(req, res) {
 
 function registerView(req, res) {
   const user = req.session.user;
-  console.log(user);
+
   if (user) return res.redirect("/");
   res.render("register");
 }
@@ -201,8 +206,6 @@ async function deleteProject(req, res) {
 }
 
 async function addProject(req, res) {
-  console.log(req.body);
-  console.log(req.file);
   const { projectName, startDate, finishDate, description, technologies } =
     req.body;
   const imagePath = req.file.path;
@@ -222,6 +225,8 @@ async function addProject(req, res) {
 }
 
 async function editProjectView(req, res) {
+  const user = req.session.user;
+  if (user) return res.redirect("/login");
   const { id } = req.params;
 
   const result = await projectModel.findOne({
@@ -237,8 +242,9 @@ async function editProjectView(req, res) {
 
 async function editProject(req, res) {
   const { id } = req.params;
-  const { title, content } = req.body;
-
+  const { projectName, startDate, finishDate, description, technologies } =
+    req.body;
+  const imagePath = req.file.path;
   const project = await projectModel.findOne({
     where: {
       id: id,
@@ -247,8 +253,12 @@ async function editProject(req, res) {
 
   if (!project) return res.render("not-found");
 
-  project.title = title;
-  project.content = content;
+  project.projectName = projectName;
+  project.startDate = startDate;
+  project.finishDate = finishDate;
+  project.description = description;
+  project.technologies = technologies;
+  project.image = imagePath;
 
   await project.save();
 
@@ -280,8 +290,6 @@ async function projectDetail(req, res) {
       id: id,
     },
   });
-
-  console.log(result);
 
   result.duration = calculateDuration(result.startDate, result.finishDate);
   result.dateRange = `${new Date(result.startDate).toLocaleDateString("en-GB", {

@@ -71,8 +71,12 @@
     </nav>
     <main>
       <div class="container" style="max-width: 720px">
-        <h1 class="text-center my-5 fw-bold">ADD PROJECT</h1>
-        <form action="/add-project" method="POST" enctype="multipart/form-data">
+        <h1 class="text-center my-5 fw-bold">EDIT PROJECT</h1>
+        <form
+          action="/edit-project/{{data.id}}"
+          method="POST"
+          enctype="multipart/form-data"
+        >
           <div class="mb-3">
             <label for="project-name" class="form-label fw-semibold">Project
               Name</label>
@@ -81,6 +85,7 @@
               class="form-control"
               id="project-name"
               name="projectName"
+              value="{{data.projectName}}"
             />
           </div>
           <div class="mb-3 d-flex gap-2">
@@ -91,6 +96,7 @@
                 class="form-control"
                 id="start-date"
                 name="startDate"
+                value="{{data.startDate}}"
               />
             </div>
             <div class="flex-fill">
@@ -101,6 +107,7 @@
                 class="form-control"
                 id="finish-date"
                 name="finishDate"
+                value="{{data.finishDate}}"
               />
             </div>
           </div>
@@ -114,7 +121,7 @@
               id="description"
               rows="3"
               name="description"
-            ></textarea>
+            >{{data.description}}</textarea>
           </div>
           <div class="mb-3">
             <label class="form-label fw-semibold">Technologies</label>
