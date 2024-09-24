@@ -20,7 +20,7 @@
   </head>
   <body style="font-family: Poppins" class="bg-secondary">
     <nav class="navbar navbar-expand-md" style="background-color: #f2f3f2">
-      <div class="container-lg">
+      <div class="container">
         <a class="navbar-brand" href="/"><img
             src="https://dumbways.id/assets/images/brandred.png"
             alt="Logo"
@@ -46,23 +46,17 @@
               <a class="nav-link" href="/add-project">Add Project</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-md-none" href="/register">Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-md-none" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link d-md-none" href="/contact">Contact Me</a>
             </li>
           </ul>
-          <a
-            class="btn btn-dark d-none d-md-inline"
-            href="/contact"
-          >Register</a>
-          <a
-            class="btn btn-dark d-none d-md-inline mx-2"
-            href="/contact"
-          >Login</a>
+          {{#if user}}
+            <span class="navbar-text">Hi, {{user.name}}</span>
+            <a class="btn btn-dark mx-2" href="/logout">
+              Logout</a>
+          {{else}}
+            <a class="btn btn-dark" href="/register">Register</a>
+            <a class="btn btn-dark mx-2" href="/login">Login</a>
+          {{/if}}
           <a class="btn btn-dark d-none d-md-inline" href="/contact">
             Contact Me
           </a>
@@ -128,37 +122,71 @@
             <div class="row">
               <div class="col">
                 <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="fa-node"
-                    name="technologies"
-                    id="node"
-                  />
+                  {{#if data.node}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-node"
+                      name="technologies"
+                      id="node"
+                      checked
+                    />
+                  {{else}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-node"
+                      name="technologies"
+                      id="node"
+                    />
+                  {{/if}}
+
                   <label class="form-check-label" for="node"> Node JS </label>
                 </div>
               </div>
               <div class="col">
                 <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="fa-js"
-                    name="technologies"
-                    id="js"
-                  />
+                  {{#if data.js}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-js"
+                      name="technologies"
+                      id="js"
+                      checked
+                    />
+                  {{else}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-js"
+                      name="technologies"
+                      id="js"
+                    />
+                  {{/if}}
                   <label class="form-check-label" for="js"> Javascript </label>
                 </div>
               </div>
               <div class="col">
                 <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="fa-bootstrap"
-                    name="technologies"
-                    id="bootstrap"
-                  />
+                  {{#if data.bootstrap}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-bootstrap"
+                      name="technologies"
+                      id="bootstrap"
+                      checked
+                    />
+                  {{else}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-bootstrap"
+                      name="technologies"
+                      id="bootstrap"
+                    />
+                  {{/if}}
                   <label class="form-check-label" for="bootstrap">
                     Bootstrap
                   </label>
@@ -166,25 +194,47 @@
               </div>
               <div class="col">
                 <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="fa-react"
-                    name="technologies"
-                    id="react"
-                  />
+                  {{#if data.react}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-react"
+                      name="technologies"
+                      id="react"
+                      checked
+                    />
+                  {{else}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-react"
+                      name="technologies"
+                      id="react"
+                    />
+                  {{/if}}
                   <label class="form-check-label" for="react"> React </label>
                 </div>
               </div>
               <div class="col">
                 <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="fa-html5"
-                    name="technologies"
-                    id="html5"
-                  />
+                  {{#if data.html5}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-html5"
+                      name="technologies"
+                      id="html5"
+                      checked
+                    />
+                  {{else}}
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="fa-html5"
+                      name="technologies"
+                      id="html5"
+                    />
+                  {{/if}}
                   <label class="form-check-label" for="html5"> Html 5 </label>
                 </div>
               </div>
@@ -192,7 +242,13 @@
           </div>
           <div class="mb-3">
             <label for="img-up" class="form-label fw-semibold">Upload Image</label>
-            <input class="form-control" type="file" id="img-up" name="image" />
+            <input
+              class="form-control"
+              type="file"
+              id="img-up"
+              name="image"
+              value="{{data.image}}"
+            />
           </div>
           <div class="mb-3 d-flex flex-row-reverse">
             <button class="btn btn-dark align-items-end" type="submit">

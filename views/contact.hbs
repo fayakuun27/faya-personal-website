@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -22,12 +21,11 @@
   <body style="font-family: Poppins" class="bg-secondary">
     <nav class="navbar navbar-expand-md" style="background-color: #f2f3f2">
       <div class="container">
-        <a class="navbar-brand" href="/"
-          ><img
+        <a class="navbar-brand" href="/"><img
             src="https://dumbways.id/assets/images/brandred.png"
             alt="Logo"
             style="height: 30px"
-        /></a>
+          /></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -48,21 +46,17 @@
               <a class="nav-link" href="/add-project">Add Project</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-md-none" href="/register">Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-md-none" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link d-md-none" href="/contact">Contact Me</a>
             </li>
           </ul>
-          <a class="btn btn-dark d-none d-md-inline" href="/contact"
-            >Register</a
-          >
-          <a class="btn btn-dark d-none d-md-inline mx-2" href="/contact"
-            >Login</a
-          >
+          {{#if user}}
+            <span class="navbar-text">Hi, {{user.name}}</span>
+            <a class="btn btn-dark mx-2" href="/logout">
+              Logout</a>
+          {{else}}
+            <a class="btn btn-dark" href="/register">Register</a>
+            <a class="btn btn-dark mx-2" href="/login">Login</a>
+          {{/if}}
           <a class="btn btn-dark d-none d-md-inline" href="/contact">
             Contact Me
           </a>
@@ -82,9 +76,7 @@
             <input type="email" class="form-control" id="email" />
           </div>
           <div class="mb-3">
-            <label for="phoneNumber" class="form-label fw-semibold"
-              >Phone Number</label
-            >
+            <label for="phoneNumber" class="form-label fw-semibold">Phone Number</label>
             <input type="text" class="form-control" id="phoneNumber" />
           </div>
           <div class="mb-3">
@@ -96,9 +88,7 @@
             </select>
           </div>
           <div class="mb-3">
-            <label for="message" class="form-label fw-semibold"
-              >Your Message</label
-            >
+            <label for="message" class="form-label fw-semibold">Your Message</label>
             <textarea class="form-control" id="message" rows="3"></textarea>
           </div>
           <div class="mb-3 d-flex flex-row-reverse">

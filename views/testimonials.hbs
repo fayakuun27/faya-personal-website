@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -22,12 +21,11 @@
   <body style="font-family: Poppins" class="bg-white">
     <nav class="navbar navbar-expand-md" style="background-color: #f2f3f2">
       <div class="container">
-        <a class="navbar-brand" href="/"
-          ><img
+        <a class="navbar-brand" href="/"><img
             src="https://dumbways.id/assets/images/brandred.png"
             alt="Logo"
             style="height: 30px"
-        /></a>
+          /></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -45,24 +43,20 @@
               <a class="nav-link" href="/testimonials">Testimonials</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="add-project">Add Project</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-md-none" href="/register">Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-md-none" href="/login">Login</a>
+              <a class="nav-link" href="/add-project">Add Project</a>
             </li>
             <li class="nav-item">
               <a class="nav-link d-md-none" href="/contact">Contact Me</a>
             </li>
           </ul>
-          <a class="btn btn-dark d-none d-md-inline" href="/register"
-            >Register</a
-          >
-          <a class="btn btn-dark d-none d-md-inline mx-2" href="/login"
-            >Login</a
-          >
+          {{#if user}}
+            <span class="navbar-text">Hi, {{user.name}}</span>
+            <a class="btn btn-dark mx-2" href="/logout">
+              Logout</a>
+          {{else}}
+            <a class="btn btn-dark" href="/register">Register</a>
+            <a class="btn btn-dark mx-2" href="/login">Login</a>
+          {{/if}}
           <a class="btn btn-dark d-none d-md-inline" href="/contact">
             Contact Me
           </a>
@@ -79,19 +73,24 @@
             All
           </button>
           <button onclick="filterTestimonial(1)" class="btn btn-dark btn-sm">
-            1 <i class="fa-solid fa-star"></i>
+            1
+            <i class="fa-solid fa-star"></i>
           </button>
           <button onclick="filterTestimonial(2)" class="btn btn-dark btn-sm">
-            2 <i class="fa-solid fa-star"></i>
+            2
+            <i class="fa-solid fa-star"></i>
           </button>
           <button onclick="filterTestimonial(3)" class="btn btn-dark btn-sm">
-            3 <i class="fa-solid fa-star"></i>
+            3
+            <i class="fa-solid fa-star"></i>
           </button>
           <button onclick="filterTestimonial(4)" class="btn btn-dark btn-sm">
-            4 <i class="fa-solid fa-star"></i>
+            4
+            <i class="fa-solid fa-star"></i>
           </button>
           <button onclick="filterTestimonial(5)" class="btn btn-dark btn-sm">
-            5 <i class="fa-solid fa-star"></i>
+            5
+            <i class="fa-solid fa-star"></i>
           </button>
         </div>
 
@@ -114,7 +113,8 @@
                   </p>
                   <p class="text-end fw-bold">-xixixi</p>
                   <p class="text-end fw-bold">
-                    1 <i class="fa-solid fa-star"></i>
+                    1
+                    <i class="fa-solid fa-star"></i>
                   </p>
                 </div>
               </div>
@@ -133,7 +133,8 @@
                   </p>
                   <p class="text-end fw-bold">-xixixi</p>
                   <p class="text-end fw-bold">
-                    1 <i class="fa-solid fa-star"></i>
+                    1
+                    <i class="fa-solid fa-star"></i>
                   </p>
                 </div>
               </div>
@@ -152,7 +153,8 @@
                   </p>
                   <p class="text-end fw-bold">-xixixi</p>
                   <p class="text-end fw-bold">
-                    1 <i class="fa-solid fa-star"></i>
+                    1
+                    <i class="fa-solid fa-star"></i>
                   </p>
                 </div>
               </div>
@@ -171,7 +173,8 @@
                   </p>
                   <p class="text-end fw-bold">-xixixi</p>
                   <p class="text-end fw-bold">
-                    1 <i class="fa-solid fa-star"></i>
+                    1
+                    <i class="fa-solid fa-star"></i>
                   </p>
                 </div>
               </div>
@@ -190,7 +193,8 @@
                   </p>
                   <p class="text-end fw-bold">-xixixi</p>
                   <p class="text-end fw-bold">
-                    1 <i class="fa-solid fa-star"></i>
+                    1
+                    <i class="fa-solid fa-star"></i>
                   </p>
                 </div>
               </div>

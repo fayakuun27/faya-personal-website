@@ -162,6 +162,7 @@ function calculateDuration(startDate, endDate) {
 
 async function home(req, res) {
   const user = req.session.user;
+
   const result = await projectModel.findAll({
     include: [
       {
@@ -183,10 +184,27 @@ async function home(req, res) {
     }
   }
 
+  for (let i = 0; i < result.length; i++) {
+    if (user) {
+      if (user.id == result[i].userId) {
+        result[i].user = true;
+      } else {
+        result[i].user = false;
+      }
+    } else {
+      result[i].user = false;
+    }
+  }
+
   res.render("index", { data: result, user });
 }
 
 async function deleteProject(req, res) {
+  const user = req.session.user;
+
+  if (!user) {
+    return res.redirect("/login");
+  }
   const { id } = req.params;
 
   let result = await projectModel.findOne({
@@ -206,6 +224,11 @@ async function deleteProject(req, res) {
 }
 
 async function addProject(req, res) {
+  const user = req.session.user;
+
+  if (!user) {
+    return res.redirect("/login");
+  }
   const { projectName, startDate, finishDate, description, technologies } =
     req.body;
   const imagePath = req.file.path;
@@ -226,7 +249,11 @@ async function addProject(req, res) {
 
 async function editProjectView(req, res) {
   const user = req.session.user;
-  if (user) return res.redirect("/login");
+
+  if (!user) {
+    return res.redirect("/login");
+  }
+
   const { id } = req.params;
 
   const result = await projectModel.findOne({
@@ -236,11 +263,40 @@ async function editProjectView(req, res) {
   });
 
   if (!result) return res.render("not-found");
-
+  if (result.technologies.includes("fa-node")) {
+    result.node = true;
+  } else {
+    result.node = false;
+  }
+  if (result.technologies.includes("fa-js")) {
+    result.js = true;
+  } else {
+    result.js = false;
+  }
+  if (result.technologies.includes("fa-bootstrap")) {
+    result.bootstrap = true;
+  } else {
+    result.bootstrap = false;
+  }
+  if (result.technologies.includes("fa-react")) {
+    result.react = true;
+  } else {
+    result.react = false;
+  }
+  if (result.technologies.includes("fa-html5")) {
+    result.html5 = true;
+  } else {
+    result.html5 = false;
+  }
   res.render("edit-project", { data: result });
 }
 
 async function editProject(req, res) {
+  const user = req.session.user;
+
+  if (!user) {
+    return res.redirect("/login");
+  }
   const { id } = req.params;
   const { projectName, startDate, finishDate, description, technologies } =
     req.body;
@@ -272,24 +328,31 @@ function addProjectView(req, res) {
     return res.redirect("/login");
   }
 
-  res.render("add-project");
+  res.render("add-project", { user });
 }
 
 function contact(req, res) {
-  res.render("contact");
+  const user = req.session.user;
+
+  res.render("contact", { user });
 }
 
 function testimonial(req, res) {
-  res.render("testimonials");
+  const user = req.session.user;
+  res.render("testimonials", { user });
 }
 
 async function projectDetail(req, res) {
+  const user = req.session.user;
+
   const { id } = req.params;
   const result = await projectModel.findOne({
     where: {
       id: id,
     },
   });
+
+  if (!result) return res.render("not-found");
 
   result.duration = calculateDuration(result.startDate, result.finishDate);
   result.dateRange = `${new Date(result.startDate).toLocaleDateString("en-GB", {
@@ -302,8 +365,33 @@ async function projectDetail(req, res) {
     year: "numeric",
   })}`;
 
-  if (!result) return res.render("not-found");
-  res.render("project-detail", { data: result });
+  if (result.technologies.includes("fa-node")) {
+    result.node = true;
+  } else {
+    result.node = false;
+  }
+  if (result.technologies.includes("fa-js")) {
+    result.js = true;
+  } else {
+    result.js = false;
+  }
+  if (result.technologies.includes("fa-bootstrap")) {
+    result.bootstrap = true;
+  } else {
+    result.bootstrap = false;
+  }
+  if (result.technologies.includes("fa-react")) {
+    result.react = true;
+  } else {
+    result.react = false;
+  }
+  if (result.technologies.includes("fa-html5")) {
+    result.html5 = true;
+  } else {
+    result.html5 = false;
+  }
+
+  res.render("project-detail", { data: result, user });
 }
 
 app.listen(port, () => {
